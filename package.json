@@ -1,0 +1,33 @@
+{
+  "name": "mermaid-floorplan",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "langium:generate": "npm x langium generate",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "langium": "^4.0.0",
+    "langium-cli": "^4.0.0",
+    "vitest": "^3.2.4"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "langium": {
+    "languages": [
+      {
+        "id": "floorplan",
+        "grammar": "floorplan.langium",
+        "fileExtensions": [
+          ".fp"
+        ],
+        "textMate": {
+          "out": "syntaxes/floorplan.tmGrammar.json"
+        }
+      }
+    ],
+    "out": "generated"
+  }
+}
