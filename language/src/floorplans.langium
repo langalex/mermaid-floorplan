@@ -1,4 +1,4 @@
-grammar Floorplan
+grammar Floorplans
 
 // Entry rule
 entry Floorplan:
@@ -51,19 +51,19 @@ Dimension:
     '(' width=NUMBER 'x' height=NUMBER ')';
 
 // Wall directions
-WallDirection:
+WallDirection returns string:
     'top' | 'right' | 'bottom' | 'left';
 
 // Wall types
-WallType:
+WallType returns string:
     'solid' | 'door' | 'window' | 'open';
 
 // Door types
-DoorType:
+DoorType returns string:
     'door' | 'double-door';
 
 // Swing directions
-SwingDirection:
+SwingDirection returns string:
     'left' | 'right';
 
 // Terminal rules
