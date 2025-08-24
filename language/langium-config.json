@@ -1,0 +1,16 @@
+{
+    "projectName": "Floorplans",
+    "languages": [
+        {
+            "id": "floorplans",
+            "grammar": "src/floorplans.langium",
+            "fileExtensions": [
+                "fp"
+            ],
+            "textMate": {
+                "out": "syntaxes/floorplans.tmLanguage.json"
+            }
+        }
+    ],
+    "out": "src/generated"
+}

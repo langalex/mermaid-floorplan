@@ -1,20 +1,11 @@
-# dependencies
-node_modules
-
-
-# dotenv environment variable files
-.env
-.env.development.local
-.env.test.local
-.env.production.local
-.env.local
-
-# caches
-.eslintcache
-.cache
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+node_modules/
+dist/
+out/
+**/src/generated
+syntaxes/
 *.tsbuildinfo
-
-
-# Finder (MacOS) folder config
-.DS_Store
-.vscode/settings.json
+*.vsix

@@ -1,33 +1,30 @@
 {
-  "name": "mermaid-floorplan",
-  "module": "index.ts",
-  "type": "module",
-  "private": true,
-  "scripts": {
-    "langium:generate": "npm x langium generate",
-    "test": "vitest"
-  },
-  "devDependencies": {
-    "langium": "^4.0.0",
-    "langium-cli": "^4.0.0",
-    "vitest": "^3.2.4"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
-  },
-  "langium": {
-    "languages": [
-      {
-        "id": "floorplan",
-        "grammar": "floorplan.langium",
-        "fileExtensions": [
-          ".fp"
-        ],
-        "textMate": {
-          "out": "syntaxes/floorplan.tmGrammar.json"
-        }
-      }
-    ],
-    "out": "generated"
-  }
+    "name": "floorplans-workspace",
+    "description": "Base workspace package",
+    "version": "0.0.1",
+    "type": "module",
+    "private": true,
+    "scripts": {
+        "clean": "npm run clean --workspaces",
+        "watch": "tsc -b tsconfig.build.json --watch",
+        "build": "tsc -b tsconfig.build.json && npm run build --workspaces",
+        "build:clean": "npm run clean && npm run build",
+        "langium:generate": "npm run --workspace packages/language langium:generate",
+        "langium:watch": "npm run --workspace packages/language langium:watch",
+        "test": "npm run --workspace packages/language test"
+    },
+    "devDependencies": {
+        "@types/node": "~20.17.48",
+        "shx": "~0.4.0",
+        "typescript": "~5.8.3"
+    },
+    "volta": {
+        "node": "20.19.2",
+        "npm": "10.8.2"
+    },
+    "workspaces": [
+        "packages/language",
+        "packages/cli",
+        "packages/extension"
+    ]
 }
