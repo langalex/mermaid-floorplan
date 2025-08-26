@@ -1,5 +1,11 @@
-rebuild parser etc. from grammar file: `npm run langium:generate`
+# Floorplan grammar parser and SVG generator
 
-build: `npm run build`
+Based on the ideas in https://github.com/mermaid-js/mermaid/issues/6134
 
-test: `npm run test`
+# Dev
+
+Rebuild parser etc. from grammar file: `npm run langium:generate`
+
+Build: `npm run build`
+
+Test: `npm run test`
