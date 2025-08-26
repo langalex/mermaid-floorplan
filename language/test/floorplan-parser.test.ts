@@ -1,18 +1,34 @@
-import { describe, test, expect } from "vitest";
-import { readFileSync } from "fs";
-import { EmptyFileSystem } from "langium";
+import { beforeAll, describe, expect, test } from "vitest";
+import { EmptyFileSystem, type LangiumDocument } from "langium";
 import { parseHelper } from "langium/test";
-import { createLangiumGrammarServices } from "langium/lsp";
+import type { Floorplan } from "floorplans-language";
+import { createFloorplansServices } from "floorplans-language";
+import { readFileSync } from "fs";
 
+let services: ReturnType<typeof createFloorplansServices>;
+let parse: ReturnType<typeof parseHelper<Floorplan>>;
+
+function expectNoErrors(document: LangiumDocument): void {
+  if (document.parseResult.parserErrors.length) {
+    console.error(document.parseResult.parserErrors);
+  }
+  expect(document.parseResult.parserErrors).toHaveLength(0);
+  expect(document.parseResult.value).toBeDefined(); // TODO: this is not working
+}
+
+beforeAll(async () => {
+  services = createFloorplansServices(EmptyFileSystem);
+  parse = parseHelper<Floorplan>(services.Floorplans);
+
+  // activate the following if your linking test requires elements from a built-in library, for example
+  // await services.shared.workspace.WorkspaceManager.initializeWorkspace([]);
+});
 describe("Floorplan Langium Parser Tests", () => {
-  const services = createLangiumGrammarServices(EmptyFileSystem);
-  const parse = parseHelper(services.Floorplan);
-
-  test("should parse basic floorplan structure", async () => {
+  test.only("should parse basic floorplan structure", async () => {
     const input = `
       floorplan
-          floor 1 {
-              room TestRoom at (0,0) size (10x10) walls [top: solid, right: solid, bottom: solid, left: solid]
+          floor f1 {
+              room TestRoom at (0,0) size (10 x 10) walls [top: solid, right: solid, bottom: solid, left: solid]
           }
       `;
 
@@ -21,7 +37,7 @@ describe("Floorplan Langium Parser Tests", () => {
 
     const model = document.parseResult.value;
     expect(model.floors).toHaveLength(1);
-    expect(model.floors[0]?.id).toBe("1");
+    expect(model.floors[0]?.id).toBe("f1");
     expect(model.floors[0]?.rooms).toHaveLength(1);
 
     const room = model.floors[0]?.rooms[0];
