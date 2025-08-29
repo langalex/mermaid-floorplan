@@ -127,4 +127,177 @@ describe("Floorplan Langium Parser Tests", () => {
     expect(toilet?.name).toBe("Toilet");
     expect(toilet?.size?.width).toBe(3);
   });
+
+  test("should parse sub-room type explicitly", async () => {
+    const input = `
+      floorplan
+          floor f1 {
+              sub-room SubRoom at (10,10) size (4 x 4) walls [top: solid, right: solid, bottom: solid, left: solid]
+          }
+      `;
+
+    const document = await parse(input);
+    expectNoErrors(document);
+
+    const room = document.parseResult.value.floors[0]?.rooms[0];
+    expect(room?.type).toBe("sub-room");
+    expect(room?.name).toBe("SubRoom");
+  });
+
+  test("should parse wall references with and without wall direction", async () => {
+    const input = `
+      floorplan
+          floor f1 {
+              room RoomA at (0,0) size (5 x 5) walls [top: solid, right: door, bottom: solid, left: solid]
+              room RoomB at (5,0) size (5 x 5) walls [top: solid, right: solid, bottom: solid, left: door]
+          }
+          connect RoomA.right to RoomB.left door
+          connect RoomA to RoomB door
+      `;
+
+    const document = await parse(input);
+    expectNoErrors(document);
+
+    const connections = document.parseResult.value.connections;
+    expect(connections[0]?.from?.wall).toBe("right");
+    expect(connections[0]?.to?.wall).toBe("left");
+    expect(connections[1]?.from?.wall).toBeUndefined();
+    expect(connections[1]?.to?.wall).toBeUndefined();
+  });
+
+  test("should parse connections with all optional properties", async () => {
+    const input = `
+      floorplan
+          floor f1 {
+              room RoomA at (0,0) size (5 x 5) walls [top: solid, right: door, bottom: solid, left: solid]
+              room RoomB at (5,0) size (5 x 5) walls [top: solid, right: solid, bottom: solid, left: door]
+          }
+          connect RoomA.right to RoomB.left double-door at 75% opens into RoomB swing: right
+      `;
+
+    const document = await parse(input);
+    expectNoErrors(document);
+
+    const connection = document.parseResult.value.connections[0];
+    expect(connection?.doorType).toBe("double-door");
+    expect(connection?.position).toBe(75);
+    expect(connection?.opensInto?.name).toBe("RoomB");
+    expect(connection?.swing).toBe("right");
+  });
+
+  test("should parse empty floor", async () => {
+    const input = `
+      floorplan
+          floor f1 {
+          }
+      `;
+
+    const document = await parse(input);
+    expectNoErrors(document);
+
+    const floor = document.parseResult.value.floors[0];
+    expect(floor?.rooms).toHaveLength(0);
+  });
+
+  test("should parse floorplan with no floors or connections", async () => {
+    const input = `floorplan`;
+
+    const document = await parse(input);
+    expectNoErrors(document);
+
+    const model = document.parseResult.value;
+    expect(model.floors).toHaveLength(0);
+    expect(model.connections).toHaveLength(0);
+  });
+
+  test("should parse multiple floors and connections", async () => {
+    const input = `
+      floorplan
+          floor f1 {
+              room RoomA at (0,0) size (5 x 5) walls [top: solid, right: door, bottom: solid, left: solid]
+          }
+          floor f2 {
+              room RoomB at (0,0) size (5 x 5) walls [top: solid, right: solid, bottom: solid, left: door]
+          }
+          connect RoomA.right to outside door
+          connect outside to RoomB.left door
+      `;
+
+    const document = await parse(input);
+    expectNoErrors(document);
+
+    const model = document.parseResult.value;
+    expect(model.floors).toHaveLength(2);
+    expect(model.connections).toHaveLength(2);
+    expect(model.floors[0]?.id).toBe("f1");
+    expect(model.floors[1]?.id).toBe("f2");
+  });
+
+  test("should parse comments", async () => {
+    const input = `
+      /* This is a multi-line comment */
+      floorplan
+          # This is a single-line comment
+          floor f1 {
+              room RoomA at (0,0) size (5 x 5) walls [top: solid, right: door, bottom: solid, left: solid] # Room comment
+          }
+          /* Connection comment */
+          connect RoomA.right to outside door
+      `;
+
+    const document = await parse(input);
+    expectNoErrors(document);
+
+    const model = document.parseResult.value;
+    expect(model.floors).toHaveLength(1);
+    expect(model.connections).toHaveLength(1);
+  });
+
+  test("should parse decimal numbers", async () => {
+    const input = `
+      floorplan
+          floor f1 {
+              room RoomA at (1.5,2.75) size (10.5 x 12.25) walls [top: solid, right: solid, bottom: solid, left: solid]
+          }
+      `;
+
+    const document = await parse(input);
+    expectNoErrors(document);
+
+    const room = document.parseResult.value.floors[0]?.rooms[0];
+    expect(room?.position?.x).toBe(1.5);
+    expect(room?.position?.y).toBe(2.75);
+    expect(room?.size?.width).toBe(10.5);
+    expect(room?.size?.height).toBe(12.25);
+  });
+
+  test("should parse room with label", async () => {
+    const input = `
+      floorplan
+          floor f1 {
+              room TestRoom at (1,2) size (10 x 12) walls [top: solid, right: solid, bottom: solid, left: solid] label "Test Room Label"
+          }
+      `;
+
+    const document = await parse(input);
+    expectNoErrors(document);
+
+    const room = document.parseResult.value.floors[0]?.rooms[0];
+    expect(room?.label).toBe("Test Room Label");
+  });
+
+  test("should parse room without label", async () => {
+    const input = `
+      floorplan
+          floor f1 {
+              room TestRoom at (1,2) size (10 x 12) walls [top: solid, right: solid, bottom: solid, left: solid]
+          }
+      `;
+
+    const document = await parse(input);
+    expectNoErrors(document);
+
+    const room = document.parseResult.value.floors[0]?.rooms[0];
+    expect(room?.label).toBeUndefined();
+  });
 });
