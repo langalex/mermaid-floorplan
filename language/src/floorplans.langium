@@ -46,7 +46,7 @@ RoomReference:
 Coordinate:
     '(' x=NUMBER ',' y=NUMBER ')';
 
-// Dimension (widthxheight)  
+// Dimension (width x height)  
 Dimension:
     '(' width=NUMBER 'x' height=NUMBER ')';
 
