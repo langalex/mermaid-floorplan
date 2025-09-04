@@ -4,23 +4,37 @@ import type { Floorplan } from "floorplans-language";
 import { createFloorplansServices } from "floorplans-language";
 import render from "./renderer.js";
 
-export default async function main(): Promise<void> {
-  const services = createFloorplansServices(EmptyFileSystem);
-  const parse = parseHelper<Floorplan>(services.Floorplans);
-  const input = `
-      floorplan
-          floor f1 {
-              room TestRoom at (1,2) size (10 x 12) walls [top: solid, right: solid, bottom: solid, left: solid]
-          }
-      `;
+const services = createFloorplansServices(EmptyFileSystem);
+const parse = parseHelper<Floorplan>(services.Floorplans);
 
-  const doc = await parse(input);
-  const svg = await render(doc);
-  const container = document.getElementById("app");
+export default async function main(): Promise<void> {
+  const input = document.getElementById("input") as HTMLTextAreaElement | null;
+  if (!input) {
+    throw new Error("Input not found");
+  }
+  const container = document.getElementById("svg") as SVGElement | null;
   if (!container) {
     throw new Error("Container not found");
   }
-  container.innerHTML = svg;
+  container.innerHTML = await renderSvg(input.value);
+  input.addEventListener("input", async () => {
+    try {
+      container.innerHTML = await renderSvg(input.value);
+    } catch (error) {
+      container.innerHTML = `<div style="color: red;">${
+        (error as Error).message
+      }</div>`;
+    }
+  });
+}
+
+async function renderSvg(input: string): Promise<string> {
+  const doc = await parse(input);
+  if (doc.parseResult.parserErrors.length) {
+    throw new Error(doc.parseResult.parserErrors.join("\n"));
+  }
+  const svg = await render(doc);
+  return svg;
 }
 
 main();
