@@ -1,4 +1,5 @@
 import type { Room } from "floorplans-language";
+import { generateDoor } from "./door.js";
 
 export function generateRoomText(
   room: Room,
@@ -15,11 +16,20 @@ export function wallRectangle(
   y: number,
   width: number,
   height: number,
-  wallType: string
+  wallType: string,
+  wallDirection?: string
 ): string {
   if (wallType === "open") {
     return "";
   }
+
+  if (wallType === "door") {
+    const wall = `<rect x="${x}" y="${y}" width="${width}" height="${height}" 
+      fill="black" stroke="black" stroke-width="0.05" />`;
+    const door = generateDoor(x, y, width, height, wallDirection);
+    return wall + door;
+  }
+
   return `<rect x="${x}" y="${y}" width="${width}" height="${height}" 
     fill="black" stroke="black" stroke-width="0.05" />`;
 }
@@ -43,7 +53,14 @@ export function generateRoomRectangle(room: Room): string {
   };
 
   // Top wall
-  const topWall = wallRectangle(x, y, width, wallThickness, getWallType("top"));
+  const topWall = wallRectangle(
+    x,
+    y,
+    width,
+    wallThickness,
+    getWallType("top"),
+    "top"
+  );
 
   // Right wall
   const rightWall = wallRectangle(
@@ -51,7 +68,8 @@ export function generateRoomRectangle(room: Room): string {
     y,
     wallThickness,
     height,
-    getWallType("right")
+    getWallType("right"),
+    "right"
   );
 
   // Bottom wall
@@ -60,7 +78,8 @@ export function generateRoomRectangle(room: Room): string {
     y + height - wallThickness,
     width,
     wallThickness,
-    getWallType("bottom")
+    getWallType("bottom"),
+    "bottom"
   );
 
   // Left wall
@@ -69,7 +88,8 @@ export function generateRoomRectangle(room: Room): string {
     y,
     wallThickness,
     height,
-    getWallType("left")
+    getWallType("left"),
+    "left"
   );
 
   return `${topWall}${rightWall}${bottomWall}${leftWall}${generateRoomText(
