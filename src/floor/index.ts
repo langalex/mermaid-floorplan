@@ -1,4 +1,4 @@
-import type { Floorplan, Floor } from "floorplans-language";
+import type { Floor } from "floorplans-language";
 
 export function generateFloorRectangle(floor: Floor): string {
   const floorBounds = calculateFloorBounds(floor);
