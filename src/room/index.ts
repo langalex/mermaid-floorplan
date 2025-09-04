@@ -1,5 +1,5 @@
 import type { Room } from "floorplans-language";
-import { generateDoor } from "./door.js";
+import { wallRectangle } from "./wall.js";
 
 export function generateRoomText(
   room: Room,
@@ -9,29 +9,6 @@ export function generateRoomText(
   const displayText = room.label ? `${room.name} (${room.label})` : room.name;
   return `<text x="${centerX}" y="${centerY}" text-anchor="middle" dominant-baseline="middle" 
     font-size="0.8" fill="black">${displayText}</text>`;
-}
-
-export function wallRectangle(
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-  wallType: string,
-  wallDirection?: string
-): string {
-  if (wallType === "open") {
-    return "";
-  }
-
-  if (wallType === "door") {
-    const wall = `<rect x="${x}" y="${y}" width="${width}" height="${height}" 
-      fill="black" stroke="black" stroke-width="0.05" />`;
-    const door = generateDoor(x, y, width, height, wallDirection);
-    return wall + door;
-  }
-
-  return `<rect x="${x}" y="${y}" width="${width}" height="${height}" 
-    fill="black" stroke="black" stroke-width="0.05" />`;
 }
 
 export function generateRoomRectangle(room: Room): string {
