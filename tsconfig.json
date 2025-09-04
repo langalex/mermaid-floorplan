@@ -12,8 +12,11 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
-    "composite": true
+    "composite": true,
+    "rootDir": "src",
+    "noEmit": true
+    // "outDir": "build"
   },
-  "include": ["**/src/**/*", "**/test/**/*"],
+  "include": ["src/**/*.ts"],
   "exclude": ["**/lib/**/*", "**/out/**/*", "**/node_modules/**/*"]
 }

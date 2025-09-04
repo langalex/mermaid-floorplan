@@ -3,9 +3,10 @@
 !.vscode/launch.json
 !.vscode/tasks.json
 node_modules/
-dist/
+build/
 out/
 **/src/generated
 syntaxes/
 *.tsbuildinfo
 *.vsix
+
