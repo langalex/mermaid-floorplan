@@ -25,6 +25,8 @@ jobs:
       - name: Generate language files
         run: npm run langium:generate
 
+      - name: Build app
+        run: npm run build
       - name: Run tests
         run: npm test
 
