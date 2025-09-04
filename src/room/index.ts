@@ -21,7 +21,7 @@ export function wallRectangle(
     return "";
   }
   return `<rect x="${x}" y="${y}" width="${width}" height="${height}" 
-    fill="white" stroke="black" stroke-width="0.05" />`;
+    fill="black" stroke="black" stroke-width="0.05" />`;
 }
 
 export function generateRoomRectangle(room: Room): string {
