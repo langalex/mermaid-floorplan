@@ -45,7 +45,7 @@ export function generateDoor(
   }
 
   // Draw only the door
-  const door = `<path d="${pathData}" fill="none" stroke="black" stroke-width="0.1" />`;
+  const door = `<path d="${pathData}" fill="white" stroke="black" stroke-width="0.05" data-type="door" data-direction="${wallDirection}" />`;
 
   return door;
 }

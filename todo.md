@@ -13,7 +13,7 @@
 - [x] **walls** (WallSpec) - Array of wall specifications
   - [x] specifications (Array<WallSpecification>) - Each specification has:
     - [x] direction ('top' | 'right' | 'bottom' | 'left')
-    - [ ] type ('solid' | 'door' | 'window' | 'open')
+    - [x] type ('solid' | 'door' | 'window' | 'open')
 
 ## Optional Attributes
 
