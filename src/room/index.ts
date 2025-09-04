@@ -6,9 +6,24 @@ export function generateRoomText(
   centerX: number,
   centerY: number
 ): string {
-  const displayText = room.label ? `${room.name} (${room.label})` : room.name;
-  return `<text x="${centerX}" y="${centerY}" text-anchor="middle" dominant-baseline="middle" 
-    font-size="0.8" fill="black">${displayText}</text>`;
+  const sizeText = `${room.size.width} x ${room.size.height}`;
+
+  let textElements = `<text x="${centerX}" y="${
+    centerY - 1
+  }" text-anchor="middle" dominant-baseline="middle" 
+    font-size="0.8" fill="black">${room.name}</text>`;
+
+  if (room.label) {
+    textElements += `<text x="${centerX}" y="${centerY}" text-anchor="middle" dominant-baseline="middle" 
+      font-size="0.8">${room.label}</text>`;
+  }
+
+  textElements += `<text x="${centerX}" y="${
+    centerY + 1
+  }" text-anchor="middle" dominant-baseline="middle" 
+    font-size="0.7" fill="gray">${sizeText}</text>`;
+
+  return textElements;
 }
 
 export function generateRoomRectangle(room: Room): string {

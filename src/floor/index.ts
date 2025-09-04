@@ -5,7 +5,7 @@ export function generateFloorRectangle(floor: Floor): string {
 
   return `<rect x="${floorBounds.minX}" y="${floorBounds.minY}" 
     width="${floorBounds.width}" height="${floorBounds.height}" 
-    fill="none" stroke="black" stroke-width="0.1" />`;
+    fill="#eed" stroke="black" stroke-width="0.1" />`;
 }
 
 export function calculateFloorBounds(floor: Floor): {
