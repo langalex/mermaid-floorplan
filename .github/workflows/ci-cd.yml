@@ -22,9 +22,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Generate language files
-        run: npm run langium:generate
-
       - name: Build app
         run: npm run build
       - name: Run tests
@@ -51,9 +48,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Generate language files
-        run: npm run langium:generate
 
       - name: Build app
         run: npm run build

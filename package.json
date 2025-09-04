@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "npm run clean --workspaces",
     "dev": "vite",
-    "build": "npm run langium:generate && npm run build --workspaces && tsc",
+    "build": "npm run langium:generate && npm run build --workspaces && tsc && npx vite build",
     "langium:generate": "npm run --workspace language langium:generate",
     "langium:watch": "npm run --workspace language langium:watch",
     "test": "npm run --workspace language test"
