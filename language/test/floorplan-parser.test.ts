@@ -3,7 +3,6 @@ import { EmptyFileSystem, type LangiumDocument } from "langium";
 import { parseHelper } from "langium/test";
 import type { Floorplan } from "floorplans-language";
 import { createFloorplansServices } from "floorplans-language";
-import { readFileSync } from "fs";
 
 let services: ReturnType<typeof createFloorplansServices>;
 let parse: ReturnType<typeof parseHelper<Floorplan>>;

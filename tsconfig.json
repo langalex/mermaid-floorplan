@@ -3,9 +3,7 @@
     "target": "ES2020",
     "module": "NodeNext",
     "moduleResolution": "nodenext",
-    "lib": [
-        "ES2020"
-    ],
+    "lib": ["ES2020", "DOM"],
     "sourceMap": true,
     "strict": true,
     "noUnusedLocals": true,
@@ -16,13 +14,6 @@
     "declaration": true,
     "composite": true
   },
-  "include": [
-     "**/src/**/*",
-     "**/test/**/*"
-  ],
-  "exclude": [
-     "**/lib/**/*",
-     "**/out/**/*",
-     "**/node_modules/**/*"
-  ]
+  "include": ["**/src/**/*", "**/test/**/*"],
+  "exclude": ["**/lib/**/*", "**/out/**/*", "**/node_modules/**/*"]
 }
