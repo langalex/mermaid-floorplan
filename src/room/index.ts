@@ -26,9 +26,13 @@ export function generateRoomText(
   return textElements;
 }
 
-export function generateRoomRectangle(room: Room): string {
-  const x = room.position.x;
-  const y = room.position.y;
+export function generateRoomSvg(
+  room: Room,
+  parentOffsetX: number = 0,
+  parentOffsetY: number = 0
+): string {
+  const x = room.position.x + parentOffsetX;
+  const y = room.position.y + parentOffsetY;
   const width = room.size.width;
   const height = room.size.height;
   const centerX = x + width / 2;
@@ -84,9 +88,17 @@ export function generateRoomRectangle(room: Room): string {
     "left"
   );
 
+  // Generate sub-rooms recursively
+  let subRoomSvg = "";
+  if (room.subRooms && room.subRooms.length > 0) {
+    for (const subRoom of room.subRooms) {
+      subRoomSvg += generateRoomSvg(subRoom, x, y);
+    }
+  }
+
   return `${topWall}${rightWall}${bottomWall}${leftWall}${generateRoomText(
     room,
     centerX,
     centerY
-  )}`;
+  )}${subRoomSvg}`;
 }

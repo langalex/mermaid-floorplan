@@ -1,6 +1,6 @@
 import type { Floorplan } from "floorplans-language";
 import type { LangiumDocument } from "langium";
-import { generateRoomRectangle } from "./room/index.js";
+import { generateRoomSvg } from "./room/index.js";
 import { generateFloorRectangle, calculateFloorBounds } from "./floor/index.js";
 
 export default async function render(
@@ -24,7 +24,7 @@ export default async function render(
 
     // Generate room rectangles
     for (const room of floor.rooms) {
-      svg += generateRoomRectangle(room);
+      svg += generateRoomSvg(room);
     }
   }
 
