@@ -14,7 +14,9 @@
     "declaration": true,
     "composite": true,
     "rootDir": "src",
-    "noEmit": true
+    "noEmit": true,
+    "types": ["vite/client"]
+
     // "outDir": "build"
   },
   "include": ["src/**/*.ts"],
