@@ -63,15 +63,23 @@ function initializeChat(editorInstance: EditorInstance) {
     "remove-api-key"
   ) as HTMLButtonElement;
   const apiKeyStatus = document.getElementById("api-key-status") as HTMLElement;
+  const modelSelect = document.getElementById(
+    "model-select"
+  ) as HTMLSelectElement;
 
-  // Load saved API key
+  // Load saved API key and model
   const savedApiKey = localStorage.getItem("openai_api_key");
+  const savedModel = localStorage.getItem("openai_model") || "gpt-3.5-turbo";
+
   if (savedApiKey) {
     apiKeyInput.value = savedApiKey;
     chatService.setApiKey(savedApiKey);
     updateChatUI(true);
     removeApiKeyButton.style.display = "inline-block";
   }
+
+  modelSelect.value = savedModel;
+  chatService.setModel(savedModel);
 
   function updateChatUI(apiKeyValid: boolean) {
     if (apiKeyValid) {
@@ -212,8 +220,15 @@ function initializeChat(editorInstance: EditorInstance) {
     updateChatUI(false);
   }
 
+  function updateModel() {
+    const selectedModel = modelSelect.value;
+    chatService.setModel(selectedModel);
+    localStorage.setItem("openai_model", selectedModel);
+  }
+
   saveApiKeyButton.addEventListener("click", saveApiKey);
   removeApiKeyButton.addEventListener("click", removeApiKey);
+  modelSelect.addEventListener("change", updateModel);
   apiKeyInput.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
       saveApiKey();

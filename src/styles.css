@@ -93,6 +93,28 @@ h1 {
   margin-bottom: 8px;
 }
 
+.model-selection {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.model-selection label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+#model-select {
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 14px;
+  min-width: 150px;
+}
+
 #save-api-key {
   padding: 6px 12px;
   background-color: #007bff;

@@ -37,6 +37,16 @@ floorplan
               id="api-key-input"
               placeholder="Enter your OpenAI API key (sk-...)"
             />
+            <div class="model-selection">
+              <label for="model-select">Model:</label>
+              <select id="model-select">
+                <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                <option value="gpt-4">GPT-4</option>
+                <option value="gpt-4-turbo">GPT-4 Turbo</option>
+                <option value="gpt-4o">GPT-4o</option>
+                <option value="gpt-4o-mini">GPT-4o Mini</option>
+              </select>
+            </div>
             <div class="flex">
               <button id="save-api-key">Save API Key</button>
               <button id="remove-api-key" style="display: none">

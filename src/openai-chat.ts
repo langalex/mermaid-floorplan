@@ -2,10 +2,15 @@ import floorplanGrammar from "./floorplans.mdc?raw";
 
 export class OpenAIChatService {
   private apiKey: string | null = null;
+  private model: string = "gpt-3.5-turbo";
   private messages: Array<{ role: string; content: string }> = [];
 
   setApiKey(apiKey: string) {
     this.apiKey = apiKey;
+  }
+
+  setModel(model: string) {
+    this.model = model;
   }
 
   async validateApiKey(apiKey: string): Promise<boolean> {
@@ -57,7 +62,7 @@ export class OpenAIChatService {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            model: "gpt-3.5-turbo",
+            model: this.model,
             messages: this.messages,
             max_tokens: 1000,
             temperature: 0.7,
