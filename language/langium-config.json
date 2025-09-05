@@ -1,16 +1,17 @@
 {
-    "projectName": "Floorplans",
-    "languages": [
-        {
-            "id": "floorplans",
-            "grammar": "src/floorplans.langium",
-            "fileExtensions": [
-                "fp"
-            ],
-            "textMate": {
-                "out": "syntaxes/floorplans.tmLanguage.json"
-            }
-        }
-    ],
-    "out": "src/generated"
+  "projectName": "Floorplans",
+  "languages": [
+    {
+      "id": "floorplans",
+      "grammar": "src/floorplans.langium",
+      "fileExtensions": ["fp"],
+      "textMate": {
+        "out": "src/generated/syntaxes/floorplans.tmLanguage.json"
+      },
+      "monarch": {
+        "out": "src/generated/syntaxes/floorplans.monarch.ts"
+      }
+    }
+  ],
+  "out": "src/generated"
 }

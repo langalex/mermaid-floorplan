@@ -5,4 +5,7 @@ export default defineConfig({
   build: {
     outDir: "build",
   },
+  optimizeDeps: {
+    include: ["monaco-editor"],
+  },
 });
