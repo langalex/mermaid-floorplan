@@ -1,5 +1,41 @@
 body {
   font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 700px) {
+  .main-container {
+    flex-direction: row;
+    height: 100vh;
+  }
+
+  .left-column {
+    width: 50%;
+    min-width: 350px;
+    overflow-y: auto;
+  }
+
+  #svg {
+    width: 50%;
+    height: 100vh;
+    overflow: auto;
+  }
 }
 
 .mb-2 {
@@ -29,6 +65,13 @@ body {
   height: 400px;
   display: flex;
   flex-direction: column;
+}
+
+@media (min-width: 700px) {
+  #chat-container {
+    height: calc(100vh - 320px);
+    min-height: 300px;
+  }
 }
 
 #api-key-container {
