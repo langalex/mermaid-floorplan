@@ -14,13 +14,13 @@ export function generateWindow(
   let windowHeight: number;
 
   if (width > height) {
-    // Horizontal wall
-    windowWidth = Math.min(width, height) * 20;
-    windowHeight = Math.min(width, height); // Proportional height
+    // Horizontal wall - window is at least 20% smaller than wall width
+    windowWidth = Math.min(width * 0.8, width - 0.2); // 80% of wall width or wall width minus padding
+    windowHeight = 0.1; // Small height for horizontal walls
   } else {
-    // Vertical wall
-    windowWidth = Math.min(width, height); // Proportional width
-    windowHeight = Math.min(width, height) * 20;
+    // Vertical wall - window is at least 20% smaller than wall height
+    windowWidth = 0.1; // Small width for vertical walls
+    windowHeight = Math.min(height * 0.8, height - 0.2); // 80% of wall height or wall height minus padding
   }
 
   // Calculate window position (centered on wall)
