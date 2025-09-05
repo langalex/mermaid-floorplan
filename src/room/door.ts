@@ -19,28 +19,30 @@ export function generateDoor(
     if (wallDirection === "bottom") {
       // Bottom wall - door opens down
       const doorY = centerY + radius;
-      pathData = `M ${centerX} ${centerY} L ${centerX} ${doorY} A ${radius} ${radius} 0 0 0 ${
-        centerX + radius
-      } ${centerY}`;
+      const startX = centerX - radius / 2;
+      const endX = centerX + radius / 2;
+      pathData = `M ${startX} ${centerY} L ${startX} ${doorY} A ${radius} ${radius} 0 0 0 ${endX} ${centerY}`;
     } else {
       // Top wall - door opens up
       const doorY = centerY - radius;
-      pathData = `M ${centerX} ${centerY} L ${centerX} ${doorY} A ${radius} ${radius} 0 0 1 ${
-        centerX + radius
-      } ${centerY}`;
+      const startX = centerX - radius / 2;
+      const endX = centerX + radius / 2;
+      pathData = `M ${startX} ${centerY} L ${startX} ${doorY} A ${radius} ${radius} 0 0 1 ${endX} ${centerY}`;
     }
   } else {
     // Vertical wall
     if (wallDirection === "right") {
       // Right wall - door opens right
       const doorX = centerX + radius;
-      const doorY = centerY - radius;
-      pathData = `M ${centerX} ${centerY} L ${doorX} ${centerY} A ${radius} ${radius} 0 0 0 ${centerX} ${doorY}`;
+      const startY = centerY - radius / 2;
+      const endY = centerY + radius / 2;
+      pathData = `M ${centerX} ${startY} L ${doorX} ${startY} A ${radius} ${radius} 0 0 1 ${centerX} ${endY}`;
     } else {
       // Left wall - door opens left
       const doorX = centerX - radius;
-      const doorY = centerY - radius;
-      pathData = `M ${centerX} ${centerY} L ${doorX} ${centerY} A ${radius} ${radius} 0 0 1 ${centerX} ${doorY}`;
+      const startY = centerY - radius / 2;
+      const endY = centerY + radius / 2;
+      pathData = `M ${centerX} ${startY} L ${doorX} ${startY} A ${radius} ${radius} 0 0 0 ${centerX} ${endY}`;
     }
   }
 
