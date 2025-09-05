@@ -2,19 +2,7 @@
 <html>
   <head>
     <title>Floorplans</title>
-    <style>
-      .mb-2 {
-        margin-bottom: 10px;
-      }
-      #editor-container {
-        height: 300px;
-        border: 1px solid black;
-        margin-bottom: 10px;
-      }
-      .scroll-container {
-        overflow-y: auto;
-      }
-    </style>
+    <link rel="stylesheet" href="src/styles.css" />
   </head>
   <body>
     <h1>Floorplans</h1>
@@ -32,12 +20,46 @@ floorplan
   }
       </pre>
     </template>
-    <div>
-      <div class="scroll-container">
-        <div id="editor-container"></div>
-      </div>
-      <div id="svg"></div>
+    <div class="scroll-container">
+      <div id="editor-container"></div>
     </div>
+    <div id="chat-container">
+      <div id="api-key-container">
+        <input
+          type="password"
+          id="api-key-input"
+          placeholder="Enter your OpenAI API key (sk-...)"
+        />
+        <div class="flex">
+          <button id="save-api-key">Save API Key</button>
+          <button id="remove-api-key" style="display: none">
+            Remove API Key
+          </button>
+          <div>
+            To use ChatGPT chat for modifying the floor plan, you need to
+            <a
+              href="https://platform.openai.com/api-keys"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              get your OpenAI API key </a
+            >.
+          </div>
+        </div>
+        <div id="api-key-status" class="api-key-status"></div>
+      </div>
+      <div id="chat-messages"></div>
+      <div class="chat-input-container">
+        <input
+          type="text"
+          id="chat-input"
+          placeholder="Ask about your floorplan..."
+          disabled
+        />
+        <button id="send-button" disabled>Send</button>
+      </div>
+    </div>
+    <div id="svg"></div>
 
     <script type="module" src="src/app.js"></script>
   </body>

@@ -1,0 +1,274 @@
+# Floorplans DSL Grammar Instructions for LLM
+
+## Overview
+
+This document provides instructions for writing and modifying content that matches the Floorplans Domain Specific Language (DSL) grammar. The Floorplans DSL is designed to describe architectural floor plans with rooms, walls, doors, windows, and connections.
+
+## Grammar Structure
+
+### Entry Point
+
+All floorplan content must start with the `floorplan` keyword followed by floor definitions and connections.
+
+```
+floorplan
+  floor <floor_id> { <rooms> }
+  <connections>
+```
+
+### Floor Definition
+
+A floor contains one or more rooms and is defined as:
+
+```
+floor <floor_id> {
+  <room_definitions>
+}
+```
+
+### Room Definition
+
+Rooms are the primary building blocks and can be either regular rooms or sub-rooms:
+
+```
+<room_type> <room_name> at <coordinate> size <dimension> walls <wall_spec> [label <string>] [composed of [<sub_rooms>]]
+```
+
+**Room Types:**
+
+- `room` - Standard room
+- `sub-room` - Nested room within another room
+
+**Required Elements:**
+
+- `name`: Unique identifier (ID format: `[_a-zA-Z][\w]*`)
+- `at`: Position using coordinate format `(x, y)`
+- `size`: Dimensions using format `(width x height)`
+- `walls`: Wall specifications (see Wall Specification section)
+
+**Optional Elements:**
+
+- `label`: Human-readable description in quotes
+- `composed of`: Array of sub-rooms for complex room structures
+
+### Wall Specification
+
+Walls are defined as an array of wall specifications:
+
+```
+[<wall_spec>, <wall_spec>, ...]
+```
+
+Each wall specification follows the format:
+
+```
+<direction>: <type>
+```
+
+**Wall Directions:**
+
+- `top` - North wall
+- `right` - East wall
+- `bottom` - South wall
+- `left` - West wall
+
+**Wall Types:**
+
+- `solid` - Standard wall
+- `door` - Wall with door opening
+- `window` - Wall with window
+- `open` - No wall (open space)
+
+### Connection Definition
+
+Connections link walls between rooms or to the outside:
+
+```
+connect <from_wall> to <to_wall> <door_type> [at <position>%] [door opens into <room> | opens into <room>] [swing: <direction>]
+```
+
+**Wall References:**
+
+- `room_name` - References all walls of a room
+- `room_name.wall_direction` - References specific wall of a room
+- `outside` - References external space
+
+**Door Types:**
+
+- `door` - Single door
+- `double-door` - Double door
+
+**Optional Elements:**
+
+- `at <position>%` - Position along wall (0-100%)
+- `door opens into <room>` - Which room the door opens into
+- `swing: <direction>` - Door swing direction (`left` or `right`)
+
+## Writing Guidelines
+
+### 1. Basic Room Creation
+
+When creating a room, always include:
+
+- Room type (`room` or `sub-room`)
+- Unique name
+- Position coordinates
+- Size dimensions
+- Wall specifications for all four sides
+
+**Example:**
+
+```
+room kitchen at (10, 5) size (8 x 6) walls [top: solid, right: solid, bottom: door, left: solid]
+```
+
+### 2. Wall Specification Best Practices
+
+- Always specify all four walls (top, right, bottom, left)
+- Use `solid` for exterior walls
+- Use `door` for entrances/exits
+- Use `window` for windows
+- Use `open` for connected spaces
+
+**Example:**
+
+```
+walls [top: solid, right: window, bottom: door, left: solid]
+```
+
+### 3. Connection Rules
+
+- Connect walls, not rooms directly
+- Use `outside` for external connections
+- Specify door type for all connections
+- Include swing direction for doors when relevant
+
+**Example:**
+
+```
+connect kitchen.bottom to living_room.top door swing: right
+connect bedroom.left to outside door
+```
+
+### 4. Coordinate System
+
+- Use positive numbers for coordinates
+- X increases to the right, Y increases upward
+- Place rooms to avoid overlaps
+- Consider room sizes when positioning
+
+### 5. Naming Conventions
+
+- Use descriptive names for rooms
+- Use snake_case or camelCase for multi-word names
+- Avoid special characters except underscores
+- Make names unique within the floorplan
+
+## Common Patterns
+
+### 1. Simple Room Layout
+
+```
+floor main {
+  room living_room at (0, 0) size (12 x 10) walls [top: solid, right: door, bottom: solid, left: solid]
+  room kitchen at (12, 0) size (8 x 10) walls [top: solid, right: solid, bottom: solid, left: door]
+  room bedroom at (0, 10) size (10 x 8) walls [top: solid, right: solid, bottom: solid, left: solid]
+}
+```
+
+### 2. Room with Sub-rooms
+
+```
+room master_suite at (0, 0) size (15 x 12) walls [top: solid, right: solid, bottom: solid, left: solid] composed of [
+  sub-room bedroom at (0, 0) size (10 x 12) walls [top: solid, right: door, bottom: solid, left: solid]
+  sub-room bathroom at (10, 0) size (5 x 12) walls [top: solid, right: solid, bottom: solid, left: door]
+]
+```
+
+### 3. External Connections
+
+```
+connect living_room.right to outside door
+connect kitchen.right to outside door
+```
+
+### 4. Internal Connections
+
+```
+connect living_room.right to kitchen.left door swing: left
+connect master_suite.bedroom.right to master_suite.bathroom.left door swing: right
+```
+
+## Modification Guidelines
+
+### 1. Adding Rooms
+
+- Ensure unique names
+- Position to avoid overlaps
+- Add appropriate wall specifications
+- Update connections if needed
+
+### 2. Modifying Existing Rooms
+
+- Keep the same name to maintain references
+- Update coordinates, size, or walls as needed
+- Ensure connections still make sense
+
+### 3. Adding Connections
+
+- Reference existing walls correctly
+- Choose appropriate door types
+- Consider door swing directions
+- Update wall types if needed (e.g., change `solid` to `door`)
+
+### 4. Removing Elements
+
+- Remove all connections to/from the element first
+- Then remove the element definition
+- Update any references in other parts
+
+## Error Prevention
+
+### 1. Syntax Errors
+
+- Always use proper brackets and parentheses
+- Include all required elements
+- Match opening and closing brackets
+- Use correct terminal formats
+
+### 2. Reference Errors
+
+- Ensure room names exist before referencing
+- Use correct wall direction names
+- Check that connections reference valid walls
+
+### 3. Logical Errors
+
+- Avoid overlapping rooms
+- Ensure doors connect to appropriate wall types
+- Consider room flow and accessibility
+- Validate coordinate positions
+
+## Example Complete Floorplan
+
+```
+floorplan
+  floor main {
+    room living_room at (0, 0) size (12 x 10) walls [top: solid, right: door, bottom: solid, left: solid] label "Main living area"
+    room kitchen at (12, 0) size (8 x 10) walls [top: solid, right: solid, bottom: solid, left: door] label "Kitchen"
+    room bedroom at (0, 10) size (10 x 8) walls [top: solid, right: solid, bottom: solid, left: solid] label "Bedroom"
+    room bathroom at (10, 10) size (10 x 8) walls [top: solid, right: solid, bottom: solid, left: door] label "Bathroom"
+  }
+
+  connect living_room.right to kitchen.left door swing: left
+  connect living_room.top to outside door
+  connect bedroom.left to outside door
+  connect bathroom.left to bedroom.right door swing: right
+```
+
+## Terminal Rules Reference
+
+- **ID**: `[_a-zA-Z][\w]*` - Identifiers start with letter/underscore, followed by word characters
+- **NUMBER**: `[0-9]+(\.[0-9]+)?` - Integers or decimals
+- **STRING**: `"[^"]*"|'[^']*'` - Text in single or double quotes
+- **Comments**: `#` for single-line, `/* */` for multi-line
