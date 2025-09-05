@@ -126,7 +126,7 @@ function initializeChat(editorInstance: EditorInstance) {
     floorplan: string | null;
     cleanedResponse: string;
   } {
-    const floorplanRegex = /```floorplans\n([\s\S]*?)\n```/g;
+    const floorplanRegex = /```\n*fp\n([\s\S]*?)\n```/g;
     const match = floorplanRegex.exec(response);
 
     if (match) {

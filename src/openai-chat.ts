@@ -44,7 +44,7 @@ export class OpenAIChatService {
 
     this.messages.push({
       role: "system",
-      content: `When modifying the floorplan, return the modified floorplan content, surrounded with \`\`\`floorplans and \`\`\``,
+      content: `When modifying the floorplan, return the modified floorplan content, surrounded with "\`\`\`fp" and "\`\`\`"`,
     });
 
     try {
