@@ -22,18 +22,20 @@ h1 {
 @media (min-width: 700px) {
   .main-container {
     flex-direction: row;
-    height: 100vh;
+    height: calc(100vh - 100px);
   }
 
   .left-column {
     width: 50%;
     min-width: 350px;
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   }
 
   #svg {
     width: 50%;
-    height: 100vh;
+    height: 100%;
     overflow: auto;
   }
 }
@@ -56,6 +58,7 @@ h1 {
 
 .scroll-container {
   overflow-y: auto;
+  flex-shrink: 0;
 }
 
 #chat-container {
@@ -69,8 +72,9 @@ h1 {
 
 @media (min-width: 700px) {
   #chat-container {
-    height: calc(100vh - 320px);
+    flex: 1;
     min-height: 300px;
+    max-height: calc(100vh - 450px);
   }
 }
 
