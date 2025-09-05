@@ -57,8 +57,11 @@ export class OpenAIChatService {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            model: "gpt-5",
+            model: "gpt-3.5-turbo",
             messages: this.messages,
+            max_tokens: 1000,
+            temperature: 0.7,
+            stream: false,
           }),
         }
       );
